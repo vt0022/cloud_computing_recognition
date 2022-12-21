@@ -91,7 +91,7 @@
           <div class="left-image">
             {% if image %}
             <div>
-              <img src="static/uploads/{{image}}" style="border-radius: 20px; height: auto; max-width: 600px; display: block; margin: 0 auto;">
+              <img src="{{image}}" style="border-radius: 20px; height: auto; max-width: 600px; display: block; margin: 0 auto;">
             </div>
             {% endif %}
             <form action="/sign_language_recogition" method="post" enctype="multipart/form-data">

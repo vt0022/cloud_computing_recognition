@@ -1,3 +1,4 @@
+import os
 from flask import Flask, flash, request, render_template
 from tensorflow import keras
 from tensorflow.keras.preprocessing import image
@@ -270,5 +271,8 @@ def weather_recognition():
         return render_template('weather_recognition.html')
 
 if __name__ == "__main__":
-    app.run()
+    port = os.environ.get('FLASK_PORT') or 8080
+    port = int(port)
+
+    app.run(port=port,host='0.0.0.0')
 
