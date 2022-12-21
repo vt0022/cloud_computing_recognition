@@ -1,5 +1,5 @@
+Flask==2.1.0
 cloudinary
-Flask
 joblib
 keras
 numpy
