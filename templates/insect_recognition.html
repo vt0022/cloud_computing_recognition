@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="author" content="templatemo">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+  <title>Nhận diện côn trùng - Học máy</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="/static/css/fontawesome.css">
+  <link rel="stylesheet" href="/static/css/templatemo-liberty-market.css">
+  <link rel="stylesheet" href="/static/css/owl.css">
+  <link rel="stylesheet" href="/static/css/animate.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+</head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="index.html" class="logo">
+              <img src="/static/images/logo.png" alt="">
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+							<li><a href="/" >Trang chủ</a></li>
+							<li><a href="/insect" class="active">Côn trùng</a></li>
+							<li><a href="/flower">Hoa</a></li>
+              <li><a href="/sign_language" >Ký hiệu tay</a></li>
+							<li><a href="/weather">Thời tiết</a></li>
+            </ul>
+            <a class='menu-trigger'>
+              <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="item-details-page" style="margin: 0; width: 100vw; height: 850px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading" style="margin-top: 20px">
+            <h1>NHẬN DIỆN CÔN TRÙNG</h1>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <ul>
+              {% for message in messages %}
+              <h4>{{message}}</h4>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="left-image">
+            {% if image %}
+            <div>
+              <img src="static/uploads/{{image}}" style="border-radius: 20px; height: auto; max-width: 600px; display: block; margin: 0 auto;">
+            </div>
+            {% endif %}
+            <form action="/insect_recogition" method="post" enctype="multipart/form-data">
+              <input type="file" name="file" required style="width: 450px; margin-bottom: 10px; 
+                  display: block; margin: 0 auto;">
+              <br>
+              <button type="submit" id="form-submit" class="main-button" style="display: block; margin: 0 auto;">Nhận diện</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-5 align-self-center">
+          <h2 style="margin-bottom: 20px; text-align: center;">ĐÂY LÀ {{insectname}}</h2>
+          <h4 style="margin-bottom: 20px; text-align: center;">Mức độ trùng khớp: {{probality}}</h4>
+          <h2 style="margin-bottom: 20px; text-align: center;">BẢNG NHẬN DIỆN</h2>
+          <div class="row">
+            {% for c, p in prediction %}
+            <div class="col-6" style="text-align: center;">
+              <span class="owner">
+                <strong>{{c}}</strong>
+                <br>
+                {{p}} %
+              </span>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/jquery/jquery.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="/static/js/isotope.min.js"></script>
+  <script src="/static/js/owl-carousel.js"></script>
+
+  <script src="/static/js/tabs.js"></script>
+  <script src="/static/js/popup.js"></script>
+  <script src="/static/js/custom.js"></script>
+</body>
+
+</html>
