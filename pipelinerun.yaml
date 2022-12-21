@@ -1,0 +1,178 @@
+﻿apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  annotations:
+    pipeline.openshift.io/started-by: vthgn
+  resourceVersion: '2043555055'
+  name: cloud-computing-recognition-5-s1hhtg
+  uid: 4c5d2d5e-18c5-4540-af7d-b23dce7d6ea9
+  creationTimestamp: '2022-12-21T03:55:55Z'
+  generation: 1
+  managedFields:
+    - apiVersion: tekton.dev/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          .: {}
+          'f:completionTime': {}
+          'f:conditions': {}
+          'f:pipelineSpec':
+            .: {}
+            'f:params': {}
+            'f:tasks': {}
+            'f:workspaces': {}
+          'f:startTime': {}
+      manager: Go-http-client
+      operation: Update
+      subresource: status
+      time: '2022-12-21T03:55:55Z'
+    - apiVersion: tekton.dev/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:pipeline.openshift.io/started-by': {}
+          'f:labels':
+            .: {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:operator.tekton.dev/operand-name': {}
+            'f:pipeline.openshift.io/strategy': {}
+            'f:pipeline.openshift.io/type': {}
+            'f:tekton.dev/pipeline': {}
+        'f:spec':
+          .: {}
+          'f:params': {}
+          'f:pipelineRef':
+            .: {}
+            'f:name': {}
+          'f:resources': {}
+          'f:status': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2022-12-21T03:55:55Z'
+  namespace: vthgn-dev
+  labels:
+    app.kubernetes.io/instance: cloud-computing-recognition-5
+    app.kubernetes.io/name: cloud-computing-recognition-5
+    operator.tekton.dev/operand-name: openshift-pipelines-addons
+    pipeline.openshift.io/strategy: docker
+    pipeline.openshift.io/type: kubernetes
+    tekton.dev/pipeline: cloud-computing-recognition-5
+spec:
+  params:
+    - name: APP_NAME
+      value: cloud-computing-recognition-5
+    - name: GIT_REPO
+      value: 'https://github.com/vt0022/cloud_computing_recognition'
+    - name: GIT_REVISION
+      value: ''
+    - name: IMAGE_NAME
+      value: >-
+        image-registry.openshift-image-registry.svc:5000/vthgn-dev/cloud-computing-recognition-5
+    - name: PATH_CONTEXT
+      value: .
+  pipelineRef:
+    name: cloud-computing-recognition-5
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+  workspaces:
+    - name: workspace
+      volumeClaimTemplate:
+        metadata:
+          creationTimestamp: null
+          labels:
+            tekton.dev/pipeline: cloud-computing-recognition-5
+        spec:
+          capacity:
+            storage: 100Gi
+          hostPath:
+            path: /mnt/pv-data/pv0002
+            type: ''
+          accessModes:
+            - ReadWriteOnce
+            - ReadWriteMany
+            - ReadOnlyMany
+          persistentVolumeReclaimPolicy: Recycle
+          volumeMode: Filesystem
+        status: {}
+status:
+  completionTime: '2022-12-21T03:55:55Z'
+  conditions:
+    - lastTransitionTime: '2022-12-21T03:55:55Z'
+      message: >-
+        Failed to create PVC for PipelineRun
+        vthgn-dev/cloud-computing-recognition-5-s1hhtg Workspaces correctly:
+        failed to create PVC pvc-c7fb7e580f: persistentvolumeclaims
+        "pvc-c7fb7e580f" is forbidden: exceeded quota: storage, requested:
+        count/persistentvolumeclaims=1, used: count/persistentvolumeclaims=5,
+        limited: count/persistentvolumeclaims=5
+      reason: CouldntCreateWorkspacePVC
+      status: 'False'
+      type: Succeeded
+  pipelineSpec:
+    params:
+      - default: cloud-computing-recognition-5
+        name: APP_NAME
+        type: string
+      - default: 'https://github.com/vt0022/cloud_computing_recognition'
+        name: GIT_REPO
+        type: string
+      - default: ''
+        name: GIT_REVISION
+        type: string
+      - default: >-
+          image-registry.openshift-image-registry.svc:5000/vthgn-dev/cloud-computing-recognition-5
+        name: IMAGE_NAME
+        type: string
+      - default: .
+        name: PATH_CONTEXT
+        type: string
+    tasks:
+      - name: fetch-repository
+        params:
+          - name: url
+            value: 'https://github.com/vt0022/cloud_computing_recognition'
+          - name: revision
+            value: ''
+          - name: subdirectory
+            value: ''
+          - name: deleteExisting
+            value: 'true'
+        taskRef:
+          kind: ClusterTask
+          name: git-clone
+        workspaces:
+          - name: output
+            workspace: workspace
+      - name: build
+        params:
+          - name: IMAGE
+            value: >-
+              image-registry.openshift-image-registry.svc:5000/vthgn-dev/cloud-computing-recognition-5
+          - name: TLSVERIFY
+            value: 'false'
+          - name: CONTEXT
+            value: .
+        runAfter:
+          - fetch-repository
+        taskRef:
+          kind: ClusterTask
+          name: buildah
+        workspaces:
+          - name: source
+            workspace: workspace
+      - name: deploy
+        params:
+          - name: SCRIPT
+            value: oc rollout status deploy/cloud-computing-recognition-5
+        runAfter:
+          - build
+        taskRef:
+          kind: ClusterTask
+          name: openshift-client
+    workspaces:
+      - name: workspace
+  startTime: '2022-12-21T03:55:55Z'
